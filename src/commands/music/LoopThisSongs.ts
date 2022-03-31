@@ -12,13 +12,11 @@ const handleEvent = (
   // handle some event if you want
   CommandObject.on(
     'SuccessPossessOnInteractionCreateEvent',
-    ({ InteractionSend, sessionId }) => {
+    ({ InteractionSend,interaction, sessionId }) => {
       if (sessionId == CommandSessionId) {
         setTimeout(() => {
-          if (InteractionSend instanceof Message) {
-            InteractionSend.delete();
-          }
-        }, 5000);
+          interaction.deleteReply();
+        },5000);
       }
     }
   );
@@ -71,28 +69,31 @@ export default {
     } else {
       handleEvent(sessionId, CommandObject);
     }
-
     if (message && args) {
       const command = args[0];
       if (command == 'on') {
         queue.setRepeatMode(RepeatMode.SONG);
+        resetEmbedMusic(queue);
         return 'đã bật lặp lại nhạc';
       } else if (command == 'off') {
         queue.setRepeatMode(RepeatMode.DISABLED);
+        resetEmbedMusic(queue);
         return 'đã tắt lặp lại nhạc';
       }
     } else if (interaction) {
       const command = option?.getSubcommand();
       if (command == 'on') {
         queue.setRepeatMode(RepeatMode.SONG);
+        resetEmbedMusic(queue);
         return 'đã bật lặp lại nhạc';
       } else if (command == 'off') {
         queue.setRepeatMode(RepeatMode.DISABLED);
+        resetEmbedMusic(queue);
         return 'đã tắt lặp lại nhạc';
       }
     }
 
-    resetEmbedMusic(queue);
-    return '<message></message>';
+    
+    return 'có lỗi xảy ra';
   },
 } as ICommand<TMetaData>;

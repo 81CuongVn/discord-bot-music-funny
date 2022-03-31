@@ -52,7 +52,9 @@ export const handleMessageMusicButton = async (
     } else if (m.customId == ButtonId.StopMusic) {
       queue.stop();
     } else if (m.customId == ButtonId.loopMusic) {
-      queue.setRepeatMode(RepeatMode.SONG);
+      queue.repeatMode == RepeatMode.SONG
+        ? queue.setRepeatMode(RepeatMode.DISABLED)
+        : queue.setRepeatMode(RepeatMode.SONG);
       m.update(getMessageSend(queue, nowSong, username));
     }
   });
