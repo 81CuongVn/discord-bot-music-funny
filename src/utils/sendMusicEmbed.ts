@@ -1,5 +1,5 @@
 import { MessageEmbed } from 'discord.js';
-import { Queue, Song } from 'distube';
+import { Queue, RepeatMode, Song } from 'distube';
 
 export const getMusicEmbed = (
   queue: Queue,
@@ -26,9 +26,17 @@ export const getMusicEmbed = (
   if (song.dislikes)
     embed.addField('dislikes', String(song.dislikes || 0), true);
   if (queue.paused) {
-    embed.addField('status', 'tạm dừng', true);
+    embed.addField(
+      'status',
+      `tạm dừng${queue.repeatMode == RepeatMode.SONG ? '(đang lập)' : ''}`,
+      true
+    );
   } else {
-    embed.addField('status', 'đang phát', true);
+    embed.addField(
+      'status',
+      `đang phát${queue.repeatMode == RepeatMode.SONG ? '(đang lập)' : ''}`,
+      true
+    );
   }
 
   if (song.thumbnail) {

@@ -11,11 +11,11 @@ const handleEvent = (
 ) => {
   CommandObject.on(
     'SuccessPossessOnMessageCreateEvent',
-    ({ message, messageAfterSend, sessionId }) => {
+    ({ messageAfterSend, sessionId }) => {
       if (CommandSessionId === sessionId) {
         setTimeout(() => {
           if (messageAfterSend.deletable) messageAfterSend.delete();
-          if (message.deletable) message.delete();
+          // if (message.deletable) message.delete();
         }, 10000);
       }
     }
@@ -54,6 +54,7 @@ export default {
     if (!musicName) {
       return 'You must enter a music name';
     }
+    console.log(musicName);
     handleEvent(sessionId, CommandObject);
     if (message) {
       const VoiceChannel = CheckVoiceChannel(

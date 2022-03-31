@@ -6,14 +6,14 @@ import {
   MessageComponentInteraction,
   MessagePayload,
 } from 'discord.js';
-import { Queue, Song } from 'distube';
+import { Queue, Song, RepeatMode } from 'distube';
 import {
   ButtonId,
   GetMessageMusicButton,
 } from '../utils/GetMessageMusicButton';
 import { getMusicEmbed } from '../utils/sendMusicEmbed';
 
-const getMessageSend = (
+export const getMessageSend = (
   queue: Queue,
   nowSong: Song<unknown>,
   username: string | undefined
@@ -51,6 +51,9 @@ export const handleMessageMusicButton = async (
       queue.skip();
     } else if (m.customId == ButtonId.StopMusic) {
       queue.stop();
+    } else if (m.customId == ButtonId.loopMusic) {
+      queue.setRepeatMode(RepeatMode.SONG);
+      m.update(getMessageSend(queue, nowSong, username));
     }
   });
 };

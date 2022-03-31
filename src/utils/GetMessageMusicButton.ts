@@ -1,5 +1,5 @@
 import { MessageActionRow, MessageButton } from 'discord.js';
-import { Queue } from 'distube';
+import { Queue, RepeatMode } from 'distube';
 export const ButtonId = {
   SkipMusic: 'SkipMusic'.toLowerCase(),
   PauseMusic: 'PauseMusic'.toLowerCase(),
@@ -47,6 +47,17 @@ export const GetMessageMusicButton = (queue: Queue) => {
       .setEmoji('⏹️')
       .setStyle('PRIMARY')
       .setDisabled(false)
+  );
+  row.addComponents(
+    new MessageButton()
+      .setCustomId(ButtonId.loopMusic)
+      .setLabel(
+        queue.repeatMode == RepeatMode.SONG
+          ? 'tắt loop bài hát'
+          : 'loop bài hát này'
+      )
+      .setEmoji('🔁')
+      .setStyle('PRIMARY')
   );
 
   return [row];

@@ -7,11 +7,11 @@ dotenv.config({
 import { allIntents } from './constants';
 import { Command, Log } from 'helper-package-create-discord-bot';
 import { TMetaData } from './types/MetaData';
-import DisTube from 'distube';
+import DisTube, { RepeatMode } from 'distube';
 import { getMusicEmbed } from './utils/sendMusicEmbed';
 import { GetMessageMusicButton } from './utils/GetMessageMusicButton';
-import { handleMessageMusicButton } from './hendler/handleMessageMusicButton';
-import { onAppCrash } from './hendler/onerror';
+import { handleMessageMusicButton } from './handler/handleMessageMusicButton';
+import { onAppCrash } from './handler/onerror';
 
 const client = new Client({
   intents: allIntents,
@@ -49,6 +49,7 @@ const command = new Command<TMetaData>(client, {
 });
 
 player.on('playSong', (queue, song) => {
+  if (queue.repeatMode == RepeatMode.SONG) return;
   let username: undefined | string = undefined;
   // check song.metadata.user have the user and you can get the username
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -87,6 +88,8 @@ player.on('addSong', (queue, _song) => {
 player.on('finishSong', (queue, song) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const metadata: any = song.metadata;
+  if (queue.repeatMode == RepeatMode.SONG) return;
+
   if (metadata.messageId) {
     queue.textChannel?.messages.fetch(metadata.messageId).then((msg) => {
       if (msg) {
@@ -95,6 +98,7 @@ player.on('finishSong', (queue, song) => {
     });
   }
 });
+
 client.on('ready', async () => {
   if (!process.env.DATABASE_URL) {
     throw new Error('DATABASE_URL is not defined');
@@ -102,6 +106,8 @@ client.on('ready', async () => {
   command.init();
   onAppCrash();
   Log.Log('Client', 'Ready to go! bot name :', client.user?.tag);
+  console.log(process.cpuUsage());
+  console.log(process.memoryUsage());
 });
 client.on('error', (error) => {
   console.log(error);
