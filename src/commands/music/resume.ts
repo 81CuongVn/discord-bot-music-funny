@@ -2,7 +2,6 @@ import { Command, ICommand } from 'helper-package-create-discord-bot';
 import { TMetaData } from '../../types/MetaData';
 import { getQueue } from './../../utils/getQueue';
 import { resetEmbedMusic } from '../../utils/resetEmbedMusic';
-import { Message } from 'discord.js';
 
 const handleEvent = (
   CommandSessionId: string | undefined,
@@ -11,12 +10,10 @@ const handleEvent = (
   // handle some event if you want
   CommandObject.on(
     'SuccessPossessOnInteractionCreateEvent',
-    ({ InteractionSend, sessionId }) => {
+    ({  sessionId , interaction}) => {
       if (sessionId == CommandSessionId) {
         setTimeout(() => {
-          if (InteractionSend instanceof Message) {
-            InteractionSend.delete();
-          }
+          interaction.deleteReply();
         }, 5000);
       }
     }

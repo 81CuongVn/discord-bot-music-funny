@@ -12,18 +12,18 @@ const handleEvent = (
   // handle some event if you want
   CommandObject.on(
     'SuccessPossessOnInteractionCreateEvent',
-    ({ interaction, sessionId }) => {
+    ({  interaction, sessionId }) => {
       if (sessionId == CommandSessionId) {
         setTimeout(() => {
           interaction.deleteReply();
-        },5000);
+        }, 5000);
       }
     }
   );
 };
 
 export default {
-  name: 'LoopThisSong'.toLowerCase(),
+  name: 'LoopThisQueue'.toLowerCase(),
   description: 'stop music',
   category: 'user',
   aliases: [],
@@ -54,7 +54,7 @@ export default {
     args,
     option,
     sessionId,
-    CommandObject
+    CommandObject,
   }) => {
     const guild = message?.guild || interaction?.guild;
     const memberVoiceChannel =
@@ -72,7 +72,7 @@ export default {
     if (message && args) {
       const command = args[0];
       if (command == 'on') {
-        queue.setRepeatMode(RepeatMode.SONG);
+        queue.setRepeatMode(RepeatMode.QUEUE);
         resetEmbedMusic(queue);
         return 'đã bật lặp lại nhạc';
       } else if (command == 'off') {
@@ -83,7 +83,7 @@ export default {
     } else if (interaction) {
       const command = option?.getSubcommand();
       if (command == 'on') {
-        queue.setRepeatMode(RepeatMode.SONG);
+        queue.setRepeatMode(RepeatMode.QUEUE);
         resetEmbedMusic(queue);
         return 'đã bật lặp lại nhạc';
       } else if (command == 'off') {
@@ -93,7 +93,6 @@ export default {
       }
     }
 
-    
     return 'có lỗi xảy ra';
   },
 } as ICommand<TMetaData>;

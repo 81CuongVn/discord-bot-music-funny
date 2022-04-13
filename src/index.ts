@@ -23,6 +23,8 @@ const client = new Client({
     'GUILD_MEMBER',
     'GUILD_SCHEDULED_EVENT',
   ],
+
+  failIfNotExists: true,
 });
 const isDev = process.env.NODE_ENV !== 'production';
 
@@ -59,6 +61,7 @@ player.on('playSong', (queue, song) => {
   }
   if (queue.textChannel) {
     const embed = getMusicEmbed(queue, song, username);
+    console.log(embed);
     const row = GetMessageMusicButton(queue);
     queue.textChannel
       .send({
@@ -74,10 +77,10 @@ player.on('playSong', (queue, song) => {
 player.on('addSong', (queue, _song) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const metaData = queue.songs[0].metadata as any;
-  if (queue.textChannel && metaData.messageId) {
+  if (metaData.messageId) {
     const row = GetMessageMusicButton(queue);
     // get message by message id
-    queue.textChannel.messages.fetch(metaData.messageId).then((message) => {
+    queue.textChannel?.messages.fetch(metaData.messageId).then((message) => {
       message.edit({
         components: [...row],
       });
@@ -105,9 +108,18 @@ client.on('ready', async () => {
   }
   command.init();
   onAppCrash();
+  client.user?.setPresence({
+    afk: true,
+    activities: [
+      {
+        name: 'with the bot',
+        type: 'PLAYING',
+      },
+    ],
+    status: 'dnd',
+    shardId: 0,
+  });
   Log.Log('Client', 'Ready to go! bot name :', client.user?.tag);
-  console.log(process.cpuUsage());
-  console.log(process.memoryUsage());
 });
 client.on('error', (error) => {
   console.log(error);
