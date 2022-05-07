@@ -121,6 +121,3 @@ client.on('ready', async () => {
   });
   Log.Log('Client', 'Ready to go! bot name :', client.user?.tag);
 });
-client.on('error', (error) => {
-  console.log(error);
-});
