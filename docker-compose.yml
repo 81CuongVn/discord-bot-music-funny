@@ -1,0 +1,13 @@
+version: '3'
+services:
+  discord-bot-music-image:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: discord-bot-music-app
+    env_file:
+      - .env
+    ports:
+      - "9000:8080"
+    restart: always
+    

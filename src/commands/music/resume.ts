@@ -10,7 +10,7 @@ const handleEvent = (
   // handle some event if you want
   CommandObject.on(
     'SuccessPossessOnInteractionCreateEvent',
-    ({  sessionId , interaction}) => {
+    ({ sessionId, interaction }) => {
       if (sessionId == CommandSessionId) {
         setTimeout(() => {
           interaction.deleteReply();
@@ -26,11 +26,13 @@ export default {
   category: 'user',
   aliases: [],
   isSlash: true,
+  DeferReply: true,
   callback: async ({
     Message: message,
     Interaction: interaction,
     MetaData,
-    sessionId,CommandObject
+    sessionId,
+    CommandObject,
   }) => {
     const guild = message?.guild || interaction?.guild;
     const memberVoiceChannel =
@@ -43,7 +45,7 @@ export default {
     if (typeof queue == 'string') {
       return queue;
     } else {
-      handleEvent(sessionId,CommandObject);
+      handleEvent(sessionId, CommandObject);
     }
     if (!queue.paused) {
       return 'bài hát đang phát mà';

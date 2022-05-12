@@ -46,7 +46,7 @@ export default {
         },
       ],
     },
-  ],
+  ],DeferReply:true,
   callback: async ({
     Message: message,
     Interaction: interaction,

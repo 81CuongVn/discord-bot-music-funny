@@ -37,6 +37,7 @@ export default {
   ],
   isSlash: true,
   ephemeralReply: true,
+  DeferReply: true,
   callback: async ({
     Message: message,
     Interaction: interaction,
@@ -54,7 +55,6 @@ export default {
     if (!musicName) {
       return 'You must enter a music name';
     }
-    console.log(musicName);
     handleEvent(sessionId, CommandObject);
     if (message) {
       const VoiceChannel = CheckVoiceChannel(

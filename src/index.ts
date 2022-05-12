@@ -12,6 +12,7 @@ import { getMusicEmbed } from './utils/sendMusicEmbed';
 import { GetMessageMusicButton } from './utils/GetMessageMusicButton';
 import { handleMessageMusicButton } from './handler/handleMessageMusicButton';
 import { onAppCrash } from './handler/onerror';
+import { webPageCheck } from './webPageCheck';
 
 const client = new Client({
   intents: allIntents,
@@ -38,13 +39,12 @@ player.on('error', (channel, error) => {
   channel.send('bot xảy ra một số lỗi vui lòng thử lại sau');
 });
 
-client.login(process.env.BOT_KEY);
 const command = new Command<TMetaData>(client, {
   commandDir: path.join(__dirname, './commands'),
   owner: ['889140130105929769'],
   isDev,
   LogForMessageAndInteraction: isDev,
-  typescript: true,
+  typescript: isDev,
   metaData: {
     player,
   },
@@ -61,7 +61,6 @@ player.on('playSong', (queue, song) => {
   }
   if (queue.textChannel) {
     const embed = getMusicEmbed(queue, song, username);
-    console.log(embed);
     const row = GetMessageMusicButton(queue);
     queue.textChannel
       .send({
@@ -108,6 +107,7 @@ client.on('ready', async () => {
   }
   command.init();
   onAppCrash();
+  webPageCheck();
   client.user?.setPresence({
     afk: true,
     activities: [
@@ -121,3 +121,4 @@ client.on('ready', async () => {
   });
   Log.Log('Client', 'Ready to go! bot name :', client.user?.tag);
 });
+client.login(process.env.BOT_KEY);

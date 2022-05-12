@@ -40,7 +40,7 @@ export default {
         option?.getInteger('messageCount'.toLowerCase(), true)
     );
     if (isNaN(messageCount) || messageCount < 1) {
-      console.log(isNaN(messageCount));
+      return "you must type number bigger than 1";
     }
     if (message) {
       try {

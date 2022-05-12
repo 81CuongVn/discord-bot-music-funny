@@ -25,6 +25,7 @@ export default {
   category: 'user',
   aliases: [],
   isSlash: true,
+  DeferReply: true,
   callback: async ({
     CommandObject,
     sessionId: CommandSessionId,

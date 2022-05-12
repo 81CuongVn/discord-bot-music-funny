@@ -1,15 +1,14 @@
 import {
   CacheType,
-  CollectorFilter,
-  InteractionUpdateOptions,
-  Message,
+  CollectorFilter, Message,
   MessageComponentInteraction,
   MessagePayload,
+  WebhookEditMessageOptions
 } from 'discord.js';
-import { Queue, Song, RepeatMode } from 'distube';
+import { Queue, RepeatMode, Song } from 'distube';
 import {
   ButtonId,
-  GetMessageMusicButton,
+  GetMessageMusicButton
 } from '../utils/GetMessageMusicButton';
 import { getMusicEmbed } from '../utils/sendMusicEmbed';
 
@@ -17,7 +16,7 @@ export const getMessageSend = (
   queue: Queue,
   nowSong: Song<unknown>,
   username: string | undefined
-): string | MessagePayload | InteractionUpdateOptions => {
+): string | MessagePayload | WebhookEditMessageOptions => {
   const row = GetMessageMusicButton(queue);
   const embed = getMusicEmbed(queue, nowSong, username);
   return {
