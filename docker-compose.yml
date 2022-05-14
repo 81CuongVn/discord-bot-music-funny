@@ -1,9 +1,7 @@
 version: '3'
 services:
   discord-bot-music-image:
-    build: 
-      context: .
-      dockerfile: Dockerfile
+    build: .
     container_name: discord-bot-music-app
     env_file:
       - .env

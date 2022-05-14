@@ -9,6 +9,7 @@ RUN apt-get install -y g++ make python3
 RUN apt-get autoremove -y
 RUN apt-get clean -y
 RUN apt-get autoclean -y
+RUN rm -rf /var/lib/apt/lists/*
 RUN npm install -g npm
 RUN npm install node-gyp -g
 RUN npm install
